@@ -5,7 +5,6 @@ import scrapy as sc
 app = Flask(__name__)
 
 
-
 @app.route("/predict_weather", methods=["POST"])
 def predict_weather():
     # Get input parameters from the request
@@ -13,8 +12,8 @@ def predict_weather():
     date = data["date"]
     location = data["location"]
 
-    temperature, wind, otime = sc.scrape()
-    sc.store_weather_data(temperature, wind, otime)
+    temperature, wind, hum, otime = sc.scrape()
+    sc.store_weather_data(temperature, wind, hum, otime)
     dataset = sc.load_weather_dataset()
 
     # Make predictions using the loaded model
