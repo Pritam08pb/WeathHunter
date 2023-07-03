@@ -1,35 +1,49 @@
 import pandas as pd
 from sklearn.linear_model import LinearRegression
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import mean_squared_error
+import scrapy as sc
 
-# Load the CSV data
-data = pd.read_csv("weather_dataset.csv")
+def preprocess_wind(wind):
+    # Extract numerical value from wind string
+    wind_speed = float(wind.split()[1])
+    return wind_speed
 
-# Preprocess the data
-data['wind_speed'] = data['wind'].str.split().str[1].astype(float)
-data['humidity'] = data['humidity'].str.rstrip('%').astype(float)
-data['update_time'] = pd.to_datetime(data['update_time'], format="%d-%m-%Y")
+def preprocess_humidity(humidity):
+    # Remove percentage sign and convert to float
+    humidity_value = float(humidity.rstrip('%'))
+    return humidity_value
 
-# Split the data into features (X) and target variable (y)
-X = data[['wind_speed', 'humidity']]
-y = data['temperature']
+def preprocess_time(update_time):
+    # Convert string to timestamp
+    timestamp = pd.to_datetime(update_time).timestamp()
+    return timestamp
 
-# Split the data into training and testing datasets
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=0)
+def pred():
+    # Load the CSV data
+    data = pd.read_csv("weather_dataset.csv")
 
-# Create and train the Linear Regression model
-model = LinearRegression()
-model.fit(X_train, y_train)
+    # Preprocess the data
+   
+    data['wind_speed'] = data['wind'].apply(preprocess_wind)
+    data['humidity'] = data['humidity'].apply(preprocess_humidity)
 
-# Make predictions on the testing dataset
-y_pred = model.predict(X_test)
+    # Split the data into features (X) and target variable (y)
+    X = data[[ 'wind_speed', 'humidity']]
+    y = data['temperature']
 
-# Evaluate the model's performance
-mse = mean_squared_error(y_test, y_pred)
-print("Mean Squared Error:", mse)
+    # Create and train the Linear Regression model
+    model = LinearRegression()
+    model.fit(X, y)
 
-# Predict weather for new observations
-new_data = pd.DataFrame({'wind_speed': [2.5], 'humidity': [82]})
-prediction = model.predict(new_data)
-print("Predicted Temperature:", prediction[0])
+    # Preprocess the input data
+    temperature, wind, hum, otime = sc.scrape()
+    
+    new_wind = preprocess_wind(wind)
+    new_humidity = preprocess_humidity(hum)
+
+    # Predict weather for new observation
+    
+    new_data = pd.DataFrame({'wind_speed': [new_wind], 'humidity': [new_humidity]})
+    predicted_temperature = model.predict(new_data)
+
+    return predicted_temperature
+
