@@ -22,6 +22,10 @@ def scrape():
     wind = wind
     otime = str(otime[18:])
     hum = hum[1:]
+          
+    return temperature,wind,hum,otime
+
+def data(temperature, wind,hum, otime):
     data = [[temperature, wind,hum, otime, datetime.now().strftime("%Y-%m-%d")]]
     with open("weather_dataset.csv", "r") as file:
         reader = csv.reader(file)
@@ -31,7 +35,7 @@ def scrape():
              with open("weather_dataset.csv", "a", newline="") as file:
                writer = csv.writer(file)
                writer.writerows(data)
-    return temperature,wind,hum,otime
+         
 
 
 
@@ -42,9 +46,10 @@ def scrape():
 #         time.sleep(1)
 
 
-def main():
-    temperature, wind, hum, otime = scrape()
+# def main():
+#     temperature, wind, hum, otime = scrape()
+#     data(temperature, wind,hum, otime)
 
-if __name__ == "__main__":
-    main()
-    #schedule_scraping()
+# if __name__ == "__main__":
+#     main()
+#     #schedule_scraping()
