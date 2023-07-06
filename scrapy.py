@@ -37,19 +37,17 @@ def data(temperature, wind,hum, otime):
                writer.writerows(data)
          
 
+def schedule_scraping():
+    schedule.every(1).minutes.do(scrape)
+    while True:
+        schedule.run_pending()
+        time.sleep(1)
 
 
-# def schedule_scraping():
-#     schedule.every(1).minutes.do(scrape)
-#     while True:
-#         schedule.run_pending()
-#         time.sleep(1)
+def main():
+    temperature, wind, hum, otime = scrape()
+    data(temperature, wind,hum, otime)
 
-
-# def main():
-#     temperature, wind, hum, otime = scrape()
-#     data(temperature, wind,hum, otime)
-
-# if __name__ == "__main__":
-#     main()
-#     #schedule_scraping()
+if __name__ == "__main__":
+    main()
+    schedule_scraping()
