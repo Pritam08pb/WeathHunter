@@ -1,2 +1,2 @@
-# ClimaCast
-Data Scraping and Weather Prediction
+# WeathHunter
+Weather data Scraping and automatic dataset creation for analysis .
