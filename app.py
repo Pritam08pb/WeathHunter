@@ -1,29 +1,24 @@
-from flask import Flask, jsonify, request
-import model
+from flask import Flask, jsonify
 import scrapy as sc
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 
 
 @app.route("/predict_weather", methods=["POST"])
 def predict_weather():
-    # Get input parameters from the request
-    data = request.get_json()
-    date = data["date"]
-    location = data["location"]
-
+    # Scrape weather data
     temperature, wind, hum, otime = sc.scrape()
-    sc.store_weather_data(temperature, wind, hum, otime)
-    dataset = sc.load_weather_dataset()
+    sc.data(temperature, wind, hum, otime)
 
-    # Make predictions using the loaded model
-    # Replace this with your actual prediction logic
-    predicted_weather = model.predict([[date, location]])
-
+    predicted_weather = "down"
+  
     # Create a response dictionary
     response = {
-        "date": date,
-        "location": location,
+        "temperature": temperature,
+        "wind": wind,
+        "humidity": hum,
         "predicted_weather": predicted_weather
     }
 
@@ -31,4 +26,4 @@ def predict_weather():
 
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)
