@@ -1,5 +1,4 @@
 from flask import Flask, jsonify
-import scrapy as sc
 from flask_cors import CORS
 import schedule
 import time
