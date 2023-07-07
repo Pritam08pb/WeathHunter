@@ -8,3 +8,5 @@ pandas
 pyparsing==3.0.9
 requests==2.31.0
 schedule==1.2.0
+gunicorn
+
