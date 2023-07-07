@@ -6,7 +6,7 @@ app = Flask(__name__)
 CORS(app)
 
 
-@app.route("/predict_weather", methods=["POST"])
+@app.route("/", methods=["POST", "GET"])
 def predict_weather():
     # Scrape weather data
     temperature, wind, hum, otime = sc.scrape()
