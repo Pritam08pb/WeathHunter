@@ -37,8 +37,8 @@ def predict_weather():
         "temperature": temperature,
         "wind": wind,
         "humidity": hum,
-        "observation_time": otime
-        "current_date": current_date
+        "observation_time": otime,
+        "current date": current_date
     }
 
     return jsonify(response)
