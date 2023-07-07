@@ -28,16 +28,13 @@ def predict_weather():
     wind = wind
     otime = str(otime[18:])
     hum = hum[1:]
-    current_date = current_datetime.date()
-    
     
     # Create a response dictionary
     response = {
         "temperature": temperature,
         "wind": wind,
         "humidity": hum,
-        "observation_time": otime,
-        "current date": current_date
+        "observation_time": otime
     }
 
     return jsonify(response)
