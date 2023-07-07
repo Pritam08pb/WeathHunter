@@ -22,29 +22,29 @@ def scrape():
           
     return temperature,wind,hum,otime
 
-def data(temperature, wind,hum, otime):
-    data = [[temperature, wind,hum, otime, datetime.now().strftime("%Y-%m-%d")]]
-    with open("weather_dataset.csv", "r") as file:
-        reader = csv.reader(file)
-        last_row = list(reader)[-1]
-        time = str(last_row[3])
-        if otime != time:
-             with open("weather_dataset.csv", "a", newline="") as file:
-               writer = csv.writer(file)
-               writer.writerows(data)
+# def data(temperature, wind,hum, otime):
+#     data = [[temperature, wind,hum, otime, datetime.now().strftime("%Y-%m-%d")]]
+#     with open("weather_dataset.csv", "r") as file:
+#         reader = csv.reader(file)
+#         last_row = list(reader)[-1]
+#         time = str(last_row[3])
+#         if otime != time:
+#              with open("weather_dataset.csv", "a", newline="") as file:
+#                writer = csv.writer(file)
+#                writer.writerows(data)
          
 
-def schedule_scraping():
-    schedule.every(1).minutes.do(scrape)
-    while True:
-        schedule.run_pending()
-        time.sleep(1)
+# def schedule_scraping():
+#     schedule.every(1).minutes.do(scrape)
+#     while True:
+#         schedule.run_pending()
+#         time.sleep(1)
 
 
-def main():
-    temperature, wind, hum, otime = scrape()
-    data(temperature, wind,hum, otime)
+# def main():
+#     temperature, wind, hum, otime = scrape()
+#     data(temperature, wind,hum, otime)
 
-if __name__ == "__main__":
-    main()
-    schedule_scraping()
+# if __name__ == "__main__":
+#     main()
+#     schedule_scraping()
